@@ -5,7 +5,7 @@ GPIO = GPIOSimulator()
 import time
 
 class Keypad: 
-    """ keypad class """
+    """ interface between the Keypad Controller agent and the simulated keypad """
 
     def __init__(self): 
         self.rows = [3, 4, 5, 6]
@@ -21,7 +21,7 @@ class Keypad:
         for column in self.columns: 
             GPIO.setup(column, GPIO.IN, state=GPIO.LOW)
 
-    def do_polling(self): 
+    def do_polling(self): #må legge til en listener i denne metoden
         """ Use nested loops to determine the key currently being
         pressed on the keypad. """
         print("do polling")
