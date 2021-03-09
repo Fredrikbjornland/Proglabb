@@ -12,6 +12,7 @@ class Keypad:
         self.columns = [7, 8, 9]
         self.symbols = {(0,0): "1", (0,1): "2", (0,2): "3", (1,0): "4", (1,1): "5", (1,2): "6", (2,0): "7", 
                         (2,1): "8", (2,2): "9", (3,0): "*", (3,1): "0", (2,3): "#"}
+        self.setup()
             
 
     def setup(self): 
@@ -25,7 +26,7 @@ class Keypad:
         """ Use nested loops to determine the key currently being
         pressed on the keypad. """
         print("do polling")
-        for row in self.rows: 
+        for row in self.rows:
             GPIO.output(row,GPIO.HIGH)
             for column in self.columns: 
                 print("hei")
