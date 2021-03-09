@@ -37,7 +37,6 @@ class Keypad:
                     location = (row, column) 
                     for key in self.symbols.keys(): 
                         if location == key: 
-                            print(location)
                             return location
             GPIO.output(row,GPIO.LOW) #resetter til LOW siden bare én skal være HIGH om gangen
         return (-1, -1)
@@ -47,7 +46,9 @@ class Keypad:
         initiate repeated calls to do polling until a key press is detected. """
         pressed_pin = self.do_polling()
         while pressed_pin == (-1, -1):
+            time.sleep(0.5)
             pressed_pin = self.do_polling()
+        print(self.symbols[pressed_pin])
         return self.symbols[pressed_pin]
 
 def main(): 

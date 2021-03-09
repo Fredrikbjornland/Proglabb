@@ -30,6 +30,10 @@ class FSM:
         self.add_rule(Rule("S-Active", "S-led", all_digits, KPCAgent.setLid))
         self.add_rule(Rule("S-led", "S-time", "*", KPCAgent.do_nothing))
         self.add_rule(Rule("S-led", "S-time", "*", KPCAgent.setLDur))
+        self.add_rule(Rule('S-Active', 'S-Logout', '#', KPCAgent.do_nothing))
+        self.add_rule(Rule('S-Logout', 'S-Init', '#', KPCAgent.reset_agent))
+        self.add_rule(Rule('S-Time', 'S-Active', '#', KPCAgent.fully_active_agent))
+
 
 
     def add_rule(self, rule):
@@ -40,9 +44,9 @@ class FSM:
 
     def run(self):
         i = 0
-        while self.state != 'fsm-end-state' and i < len(self.testInput):
-            # self.signal = self.get_next_signal()
-            self.signal = self.testInput[i]
+        while self.state != 'S-done' and i < len(self.testInput):
+            self.signal = self.get_next_signal()
+            # self.signal = self.testInput[i]
             for rule in self.rules:
                 if isfunction(rule.signal):
                     print(self.signal)
@@ -55,5 +59,4 @@ class FSM:
                         self.state = rule.state2
                         rule.action(self.agent, self.signal)
                         break
-            i += 1
         

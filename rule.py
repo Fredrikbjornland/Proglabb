@@ -7,7 +7,14 @@ class Rule:
         self.signal = signal
         self.action = action
 
+    def helperMatch(self, match, value):
+        if isfunction(match):
+            return match(value)
+        return value == match
+
     def match(self):
-        pass
+        return helperMatch(self.state1, current_state) and helperMatch(self.signal, current_signal)
     def fire(self):
-        pass
+        if self.action is not None:
+            self.action(agent, signal)
+        return self.state2

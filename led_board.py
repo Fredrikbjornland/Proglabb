@@ -16,7 +16,7 @@ class LedBoard:
             [1, -1, 0], 
             [0, -1, 1], 
         ]
-        self.power_up()
+        # self.power_up()
 
     def light_led(self, led_number, k): 
         """ light on one of the six leds """
@@ -57,9 +57,9 @@ class LedBoard:
             for pin_states in self.pin_led_states:
                 for pin in pin_states:
                     self.set_led_pin(pin_states.index(pin), pin)
-                    time.sleep(0.01)           
+                    time.sleep(0.1)           
             GPIO.show_leds_states()
-            time.sleep(0.01)
+            time.sleep(0.1)
             self.turn_off_all_pins()
             GPIO.show_leds_states()
     
