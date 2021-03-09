@@ -1,5 +1,5 @@
 """ Finite State Machine file """
-form inspect import isfunction
+from inspect import isfunction
 
 from rule import Rule
 
@@ -11,16 +11,12 @@ class FSM:
         self.add_all_rules()
 
     def add_all_rules(self):
-        self.add_rule("S-init", "S-Read", all_signals, KPC.reset_password_accumulator)
-        self.add_rule("S-Read", "S-Read", all_digits, KPC.append_next_password_digit)
-        self.add_rule("S-Read", "S-Verify", '*', KPC.verify_password)
-        self.add_rule("S-Read", "S-init", all_signals, KPC.reset_agent)
-        self.add_rule("S-Verify", "S-Active", 'Y', KPC.fully_active_agent)
-        self.add_rule("S-Verify", "S-init", all_signals, KPC.reset_agent)
-
-
-
-
+        self.add_rule("S-init", "S-Read", all_signals, agent.reset_password_accumulator)
+        self.add_rule("S-Read", "S-Read", all_digits, agent.append_next_password_digit)
+        self.add_rule("S-Read", "S-Verify", '*', agent.verify_password)
+        self.add_rule("S-Read", "S-init", all_signals, agent.reset_agent)
+        self.add_rule("S-Verify", "S-Active", 'Y', agent.fully_active_agent)
+        self.add_rule("S-Verify", "S-init", all_signals, agent.reset_agent)
 
     def add_rule(self, rule):
         self.rules.append(rule)
