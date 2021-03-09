@@ -23,7 +23,7 @@ class LedBoard:
             if led_number == self.pin_led_states.index(pin_states):
                 for pin in pin_states:
                     self.set_led_pin(pin_states.index(pin), pin)
-        print(GPIO.show_leds_states())
+        GPIO.show_leds_states()
                     
 
     def set_led_pin(self, led_pin, pin_state):
@@ -52,11 +52,11 @@ class LedBoard:
             for pin_states in self.pin_led_states:
                 for pin in pin_states:
                     self.set_led_pin(pin_states.index(pin), pin)
-                    time.sleep(0.01)           
-            print(GPIO.show_leds_states())
-            time.sleep(0.01)
+                    time.sleep(0.1)           
+            GPIO.show_leds_states()
+            time.sleep(0.1)
             self.turn_off_all_pins()
-            print(GPIO.show_leds_states())
+            GPIO.show_leds_states()
     
     def twinkle_all_leds(self, k): 
         """ turn on and off all leds in sequence for k seconds """
@@ -65,8 +65,8 @@ class LedBoard:
             for led in self.pin_led_states:
                 self.light_led(self.pin_led_states.index(led))
                 self.turn_off_led(self.pin_led_states.index(led)-1)
-                time.sleep(0.01)
-            print(GPIO.show_leds_states())
+                time.sleep(0.1)
+            GPIO.show_leds_states()
 
     def power_up(self): 
         self.flash_all_leds(1)
@@ -75,6 +75,18 @@ class LedBoard:
     def power_down(self): 
         self.twinkle_all_leds(1)
         self.flash_all_leds(1)
+
+    def successfull(self):
+        """ Successfull login LED pattern """
+        self.flash_all_leds(1)
+        self.flash_all_leds(1)
+
+    def unsuccessfull(self):
+        """ Unsuccessfull login LED pattern """
+        self.twinkle_all_leds(1)
+        self.twinkle_all_leds(1)
+
+
     
 
 def main(): 

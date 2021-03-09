@@ -9,6 +9,8 @@ class KPCAgent:
         self.password_path = "password.txt"
         self.current_password_buffer = ""
         self.override_signal = None
+        self.lid = 0
+        self.LDur = 0
 
     def reset_password_entry(self, signal):
         """- Clear the password-buffer and 
@@ -17,21 +19,23 @@ class KPCAgent:
         print("Reset password")
         self.current_password_buffer = ""
         ## Light up LED
-
+    def do_nothing(self, signal):
+        pass
     def get_next_signal(self):
         """ Return the override signal, if it is non-blank; 
         otherwise query the keypad for the next pressed key. """
         print("get next signal")
         if self.override_signal != None:
-            return self.override_signal
-        self.keypad.get_next_signal()
+            holder = self.override_signal
+            self.override_signal = None
+            return self.holder
+        return self.keypad.get_next_signal()
 
     def append_next_password_digit(self, signal):
         print("Append next password digit")
         if signal:
             self.current_password_buffer += signal
             print("Current password: ", self.current_password_buffer)
-            print("Character appended")
         else:
             print("ERROR!")
 
@@ -41,13 +45,14 @@ class KPCAgent:
         with open(self.password_path, "r") as reader:
             try:
                 password = reader.read()
-                print(self.current_password_buffer)
                 if self.current_password_buffer == password:
                     self.override_signal = "Y"
                     print("Validated password")
-                    """ Initiate LED lights for successfull login """
+                    self.led_board.twinkle_all_leds(1)
                 else:
                     self.override_signal = "N"
+                    print("Not correct password")
+                    self.led_board.unsuccessfull()
                     """ Initiate LED lights for failed login """
             except:
                 print("Error when reading password")
@@ -59,18 +64,26 @@ class KPCAgent:
         if not new_password.isdigit() or len(new_password) < 4:
             """ Initiate failed led lights """
             print("New password not valid")
+            self.led_board.unsuccessfull()
         else:
             try:
                 with open(self.password_path, "w") as writer:
                     writer.write(new_password)
+                    print("Passrod updated")
+                    self.led_board.successfull()
                     """ Initiate successfull LED lights """
             except:
                 print("Error writing to file")
                 """ Initiate error LED lights """
         writer.close()
+    def setLid(self, lid):
+        self.lid = lid
 
+    def setLDur(self, LDur):
+        self.LDur = LDur
+    
     def light_one_led(self):
-        pass
+        self.led_board.light_led(self.lid, self.LDur)
 
     def reset_agent(self, signal):
         print("Reset agent")

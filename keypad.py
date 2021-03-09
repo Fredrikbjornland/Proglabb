@@ -28,7 +28,7 @@ class Keypad:
         print("do polling")
         for row in self.rows:
             GPIO.output(row,GPIO.HIGH)
-            for column in self.columns: 
+            for column in self.columns:
                 print("hei")
                 if (GPIO.input(column) == GPIO.HIGH):
                     location = (row, column) 

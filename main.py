@@ -1,10 +1,13 @@
 from fsm import FSM
 from kpc_agent import KPCAgent
 from keypad import Keypad
+from led_board import LedBoard
 
 def main():
+    """ function to run program """
     keypad = Keypad()
-    agent = KPCAgent(keypad, "led_board når klar")
+    led_board = LedBoard()
+    agent = KPCAgent(keypad, led_board)
     fsm = FSM(agent)
 
 
