@@ -16,14 +16,18 @@ class LedBoard:
             [1, -1, 0], 
             [0, -1, 1], 
         ]
+        self.power_up()
 
-    def light_led(self, led_number): 
+    def light_led(self, led_number, k): 
         """ light on one of the six leds """
         for pin_states in self.pin_led_states:
             if led_number == self.pin_led_states.index(pin_states):
                 for pin in pin_states:
                     self.set_led_pin(pin_states.index(pin), pin)
-        print(GPIO.show_leds_states())
+        GPIO.show_leds_states()
+        time.sleep(k)
+        self.turn_off_led(led_number)
+        GPIO.show_leds_states()
                     
 
     def set_led_pin(self, led_pin, pin_state):
@@ -53,20 +57,18 @@ class LedBoard:
                 for pin in pin_states:
                     self.set_led_pin(pin_states.index(pin), pin)
                     time.sleep(0.01)           
-            print(GPIO.show_leds_states())
+            GPIO.show_leds_states()
             time.sleep(0.01)
             self.turn_off_all_pins()
-            print(GPIO.show_leds_states())
+            GPIO.show_leds_states()
     
     def twinkle_all_leds(self, k): 
         """ turn on and off all leds in sequence for k seconds """
         t_end = time.time() + k
         while time.time() < t_end:
             for led in self.pin_led_states:
-                self.light_led(self.pin_led_states.index(led))
-                self.turn_off_led(self.pin_led_states.index(led)-1)
-                time.sleep(0.01)
-            print(GPIO.show_leds_states())
+                self.light_led(self.pin_led_states.index(led), 0.01)
+            GPIO.show_leds_states()
 
     def power_up(self): 
         self.flash_all_leds(1)
@@ -79,11 +81,11 @@ class LedBoard:
 
 def main(): 
     ledboard = LedBoard()
-    ledboard.light_led(4)
+    ledboard.light_led(4, 2)
     ledboard.flash_all_leds(2)
     ledboard.twinkle_all_leds(2)
-    ledboard.power_up()
-    ledboard.power_down()
+    #ledboard.power_up()
+    #ledboard.power_down()
 
 if __name__ == '__main__':
     main()

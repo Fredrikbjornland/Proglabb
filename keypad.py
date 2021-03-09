@@ -10,9 +10,11 @@ class Keypad:
     def __init__(self): 
         self.rows = [3, 4, 5, 6]
         self.columns = [7, 8, 9]
-        self.symbols = {(0,0): "1", (0,1): "2", (0,2): "3", (1,0): "4", (1,1): "5", (1,2): "6", (2,0): "7", 
-                        (2,1): "8", (2,2): "9", (3,0): "*", (3,1): "0", (2,3): "#"}
-            
+        self.symbols = {(3,7): "1", (3,8): "2", (3,9): "3", 
+                        (4,7): "4", (4,8): "5", (4,9): "6", 
+                        (5,7): "7", (5,8): "8", (5,9): "9", 
+                        (6,7): "*", (6,8): "0", (6,9): "#"}
+        self.setup()
 
     def setup(self): 
         """ initialize the row pins as outputs and the column pins as input """
@@ -21,40 +23,34 @@ class Keypad:
         for column in self.columns: 
             GPIO.setup(column, GPIO.IN, state=GPIO.LOW)
 
-    def do_polling(self): #må legge til en listener i denne metoden
+    def do_polling(self): 
         """ Use nested loops to determine the key currently being
         pressed on the keypad. """
         print("do polling")
         for row in self.rows: 
-            GPIO.output(row,GPIO.HIGH)
+            GPIO.output(row, GPIO.HIGH)
             for column in self.columns: 
-                print("hei")
-                if (GPIO.input(column) == GPIO.HIGH):
+                if (GPIO.input(column) == GPIO.HIGH): 
+                    """ sjekker om pin i column er high """
                     location = (row, column) 
-                    for key in self.symbols.keys(): #kanskje gjøre om til list her også
+                    for key in self.symbols.keys(): 
                         if location == key: 
-                            print(list(self.symbols.values())[self.symbols.keys().index(key)])
-                            return list(self.symbols.values())[self.symbols.keys().index(key)]
-            GPIO.output(row,GPIO.LOW)
-            return 0
-
+                            print(location)
+                            return location
+            GPIO.output(row,GPIO.LOW) #resetter til LOW siden bare én skal være HIGH om gangen
+        return (-1, -1)
 
     def get_next_signal(self):
         """ This is the main interface between the agent and the keypad. It should
         initiate repeated calls to do polling until a key press is detected. """
-        time.sleep(3)
-        while self.do_polling() != 0: 
-            time.sleep(3)
-            self.do_polling()
-
+        pressed_pin = self.do_polling()
+        while pressed_pin == (-1, -1):
+            pressed_pin = self.do_polling()
+        return self.symbols[pressed_pin]
 
 def main(): 
-    print("hei")
     keypad = Keypad()
-    keypad.setup()
     keypad.get_next_signal()
 
 if __name__ == '__main__':
     main()
-
-    
