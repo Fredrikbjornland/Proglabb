@@ -28,6 +28,7 @@ class LedBoard:
         time.sleep(k)
         self.turn_off_led(led_number)
         GPIO.show_leds_states()
+
                     
 
     def set_led_pin(self, led_pin, pin_state):
@@ -77,7 +78,17 @@ class LedBoard:
     def power_down(self): 
         self.twinkle_all_leds(1)
         self.flash_all_leds(1)
-    
+
+    def successfull(self):
+        """ Successfull login LED pattern """
+        self.flash_all_leds(1)
+        self.flash_all_leds(1)
+
+    def unsuccessfull(self):
+        """ Unsuccessfull login LED pattern """
+        self.twinkle_all_leds(1)
+        self.twinkle_all_leds(1)
+
 
 def main(): 
     ledboard = LedBoard()
