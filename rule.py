@@ -5,7 +5,7 @@ from inspect import isfunction
 
 class Rule:
     """ Rule class """
-    def __init__(self, s1, s2, signal, action):
+    def __init__(self, s1, s2, signal, action = None):
         self.state1 = s1
         self.state2 = s2
         self.signal = signal
