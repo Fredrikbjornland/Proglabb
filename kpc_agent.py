@@ -31,8 +31,6 @@ class KPCAgent:
 
     def append_next_password_digit(self, signal):
         """ Append the signal to the current password """
-        print("Append next password digit")
-        print("signal", signal)
         if signal:
             self.current_password_buffer += signal
             print("Current password: ", self.current_password_buffer)
