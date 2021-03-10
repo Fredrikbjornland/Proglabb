@@ -1,9 +1,9 @@
 """ led board interface """
+import time
 from GPIOSimulator_v5 import *
 GPIO = GPIOSimulator()
-import time
 
-class LedBoard: 
+class LedBoard:
     """ interface to the simulated Charlieplexed LED board """
 
     def __init__(self):
@@ -31,7 +31,7 @@ class LedBoard:
         """ set pin based on pin number and their state """
         if pin_state == -1:
             GPIO.setup(led_pin, GPIO.IN)
-        else: 
+        else:
             GPIO.setup(led_pin, GPIO.OUT)
             GPIO.output(led_pin, pin_state)
 
@@ -44,7 +44,7 @@ class LedBoard:
     def turn_off_led(self, led_num):
         """" turn off one specific led """
         for led in self.pin_led_states:
-            if (led_num == self.pin_led_states.index(led)):
+            if led_num == self.pin_led_states.index(led):
                 for pin in led:
                     self.set_led_pin(led.index(pin), -1)
 
@@ -55,7 +55,7 @@ class LedBoard:
             for pin_states in self.pin_led_states:
                 for pin in pin_states:
                     self.set_led_pin(pin_states.index(pin), pin)
-                    time.sleep(0.1)        
+                    time.sleep(0.1)
             GPIO.show_leds_states()
             time.sleep(0.02)
             self.turn_off_all_pins()
@@ -71,21 +71,21 @@ class LedBoard:
 
     def power_up(self):
         """ shown when powering up """
-        self.flash_all_leds(0.5)
-        self.twinkle_all_leds(0.5)
+        self.flash_all_leds(0.25)
+        self.twinkle_all_leds(0.25)
 
     def power_down(self):
         """ shown when powering down """
-        self.twinkle_all_leds(0.5)
-        self.flash_all_leds(0.5)
+        self.twinkle_all_leds(0.25)
+        self.flash_all_leds(0.25)
 
     def successfull(self):
         """ Successfull login LED pattern """
-        self.twinkle_all_leds(1)
+        self.twinkle_all_leds(0.25)
 
     def unsuccessfull(self):
         """ Unsuccessfull login LED pattern """
-        self.flash_all_leds(1)
+        self.flash_all_leds(0.25)
 
 def main():
     """ test """

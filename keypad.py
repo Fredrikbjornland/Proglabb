@@ -1,9 +1,9 @@
 """ keypad file """
+import time
 from GPIOSimulator_v5 import *
 GPIO = GPIOSimulator()
-import time
 
-class Keypad: 
+class Keypad:
     """ interface between the Keypad Controller agent and the simulated keypad """
     def __init__(self):
         self.rows = [3, 4, 5, 6]
@@ -25,10 +25,10 @@ class Keypad:
     def do_polling(self):
         """ Use nested loops to determine the key currently being
         pressed on the keypad. """
-        for row in self.rows: 
+        for row in self.rows:
             GPIO.output(row, GPIO.HIGH)
             for column in self.columns:
-                if (GPIO.input(column) == GPIO.HIGH):
+                if GPIO.input(column) == GPIO.HIGH:
                     """ sjekker om pin i column er high """
                     location = (row, column)
                     for key in self.symbols.keys():
@@ -48,7 +48,7 @@ class Keypad:
         print(self.symbols[pressed_pin])
         return self.symbols[pressed_pin]
 
-def main(): 
+def main():
     """ test """
     keypad = Keypad()
     keypad.get_next_signal()

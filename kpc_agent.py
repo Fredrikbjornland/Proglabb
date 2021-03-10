@@ -69,7 +69,7 @@ class KPCAgent:
         else:
             with open(self.password_path, "w") as writer:
                 writer.write(self.current_password_buffer)
-                print("Passrod updated")
+                print("Password updated")
                 self.led_board.successfull()
                 """ Initiate successfull LED lights """
             writer.close()
