@@ -1,26 +1,30 @@
 """ Finite State Machine file """
-from inspect import isfunction
 
 from rule import Rule
 from kpc_agent import KPCAgent
 
 
-def all_signals(signal): return True
+def all_signals(signal):
+    """ Return True for all signals """
+    return True
 
-def all_digits(signal): return 48 <= ord(signal) <= 57
+def all_digits(signal):
+    """ Return True for all digits """
+    return 48 <= ord(signal) <= 57
 
 class FSM:
     """ Finite State Machine Class """
     def __init__(self, agent):
+        """ Initiate class """
         self.rules = []
         self.agent = agent
         self.add_all_rules()
         self.state = "S-init"
         self.signal = None
-        self.testInput = ["4", "5", "3", "4", "5", "2", "*", "Y", "*", "4", "3", "6", "6", "*"]
         self.run()
 
     def add_all_rules(self):
+        """ Method that adds all rules to the fsm """
         self.add_rule(Rule("S-init", "S-Read", all_signals, KPCAgent.reset_password_entry))
         self.add_rule(Rule("S-Read", "S-Read", all_digits, KPCAgent.append_next_password_digit))
         self.add_rule(Rule("S-Read", "S-Verify", '*', KPCAgent.verify_login))
@@ -54,8 +58,6 @@ class FSM:
             for rule in self.rules:
                 """ Iterate through rules """
                 if rule.match(self.state, self.signal):
-                   self.state = rule.fire(self.agent, self.signal)
-                   print("State: ", self.state)
-                   break
-
-        
+                    self.state = rule.fire(self.agent, self.signal)
+                    print("State: ", self.state)
+                    break
