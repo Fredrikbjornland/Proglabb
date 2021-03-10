@@ -1,43 +1,41 @@
 """ keypad file """
-
 from GPIOSimulator_v5 import *
 GPIO = GPIOSimulator()
 import time
 
 class Keypad: 
     """ interface between the Keypad Controller agent and the simulated keypad """
-
-    def __init__(self): 
+    def __init__(self):
         self.rows = [3, 4, 5, 6]
         self.columns = [7, 8, 9]
 
-        self.symbols = {(3,7): "1", (3,8): "2", (3,9): "3", 
-                        (4,7): "4", (4,8): "5", (4,9): "6", 
-                        (5,7): "7", (5,8): "8", (5,9): "9", 
+        self.symbols = {(3,7): "1", (3,8): "2", (3,9): "3",
+                        (4,7): "4", (4,8): "5", (4,9): "6",
+                        (5,7): "7", (5,8): "8", (5,9): "9",
                         (6,7): "*", (6,8): "0", (6,9): "#"}
         self.setup()
 
-    def setup(self): 
+    def setup(self):
         """ initialize the row pins as outputs and the column pins as input """
         for row in self.rows:
             GPIO.setup(row, GPIO.OUT)
-        for column in self.columns: 
+        for column in self.columns:
             GPIO.setup(column, GPIO.IN, state=GPIO.LOW)
 
-    def do_polling(self): 
+    def do_polling(self):
         """ Use nested loops to determine the key currently being
         pressed on the keypad. """
-
         for row in self.rows: 
             GPIO.output(row, GPIO.HIGH)
-            for column in self.columns: 
-                if (GPIO.input(column) == GPIO.HIGH): 
+            for column in self.columns:
+                if (GPIO.input(column) == GPIO.HIGH):
                     """ sjekker om pin i column er high """
-                    location = (row, column) 
-                    for key in self.symbols.keys(): 
-                        if location == key: 
+                    location = (row, column)
+                    for key in self.symbols.keys():
+                        if location == key:
                             return location
-            GPIO.output(row,GPIO.LOW) #resetter til LOW siden bare én skal være HIGH om gangen
+            GPIO.output(row,GPIO.LOW)
+            #resetter til LOW siden bare én skal være HIGH om gangen
         return (-1, -1)
 
     def get_next_signal(self):
@@ -51,6 +49,7 @@ class Keypad:
         return self.symbols[pressed_pin]
 
 def main(): 
+    """ test """
     keypad = Keypad()
     keypad.get_next_signal()
 
