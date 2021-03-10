@@ -27,7 +27,6 @@ class Keypad:
     def do_polling(self): 
         """ Use nested loops to determine the key currently being
         pressed on the keypad. """
-        print("do polling")
 
         for row in self.rows: 
             GPIO.output(row, GPIO.HIGH)
@@ -44,10 +43,10 @@ class Keypad:
     def get_next_signal(self):
         """ This is the main interface between the agent and the keypad. It should
         initiate repeated calls to do polling until a key press is detected. """
-        pressed_pin = self.do_polling()
+        pressed_pin = (-1, -1)
         while pressed_pin == (-1, -1):
             pressed_pin = self.do_polling()
-            time.sleep(0.5)
+            time.sleep(0.1)
         print(self.symbols[pressed_pin])
         return self.symbols[pressed_pin]
 

@@ -55,7 +55,7 @@ class FSM:
         """ Start looping though states """
         i = 0
         while self.state != 'S-done' and i < len(self.testInput):
-            self.signal  = self.testInput[i]
+            self.signal  = self.get_next_signal()
             for rule in self.rules:
                 """ Iterate through rules """
                 if rule.match(self.state, self.signal):
