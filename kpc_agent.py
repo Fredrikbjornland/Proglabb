@@ -28,7 +28,7 @@ class KPCAgent:
         if self.override_signal != None:
             holder = self.override_signal
             self.override_signal = None
-            return self.holder
+            return holder
         return self.keypad.get_next_signal()
 
     def append_next_password_digit(self, signal):
@@ -75,13 +75,16 @@ class KPCAgent:
                 """ Initiate successfull LED lights """
             writer.close()
     def setLid(self, lid):
+        print("Set lid")
         self.lid = lid
 
     def setLDur(self, LDur):
+        print("set dur")
         self.LDur = LDur
     
-    def light_one_led(self):
-        self.led_board.light_led(self.lid, self.LDur)
+    def light_one_led(self, signal):
+        print("light led")
+        self.led_board.light_led(int(self.lid), int(self.LDur))
 
     def reset_agent(self, signal):
         print("Reset agent")
