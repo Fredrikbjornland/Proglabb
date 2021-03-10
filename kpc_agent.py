@@ -33,6 +33,7 @@ class KPCAgent:
 
     def append_next_password_digit(self, signal):
         print("Append next password digit")
+        print("signal", signal)
         if signal:
             self.current_password_buffer += signal
             print("Current password: ", self.current_password_buffer)
@@ -48,34 +49,31 @@ class KPCAgent:
                 if self.current_password_buffer == password:
                     self.override_signal = "Y"
                     print("Validated password")
-                    self.led_board.twinkle_all_leds(1)
+                    # self.led_board.twinkle_all_leds(1)
                 else:
                     self.override_signal = "N"
                     print("Not correct password")
-                    self.led_board.unsuccessfull()
+                    # self.led_board.unsuccessfull()
                     """ Initiate LED lights for failed login """
             except:
                 print("Error when reading password")
         reader.close()
 
-    def validate_passcode_change(self, new_password):
+    def validate_passcode_change(self, signal):
         print("Validate passcode change")
         """ Check if password is valid, and write to password.txt if it is """
-        if not new_password.isdigit() or len(new_password) < 4:
+        print("password: ", self.current_password_buffer)
+        if not self.current_password_buffer.isdigit() or len(self.current_password_buffer) < 4:
             """ Initiate failed led lights """
             print("New password not valid")
-            self.led_board.unsuccessfull()
+            # self.led_board.unsuccessfull()
         else:
-            try:
-                with open(self.password_path, "w") as writer:
-                    writer.write(new_password)
-                    print("Passrod updated")
-                    self.led_board.successfull()
-                    """ Initiate successfull LED lights """
-            except:
-                print("Error writing to file")
-                """ Initiate error LED lights """
-        writer.close()
+            with open(self.password_path, "w") as writer:
+                writer.write(self.current_password_buffer)
+                print("Passrod updated")
+                # self.led_board.successfull()
+                """ Initiate successfull LED lights """
+            writer.close()
     def setLid(self, lid):
         self.lid = lid
 
@@ -91,5 +89,5 @@ class KPCAgent:
         self.override_signal = None
 
     def fully_active_agent(self, signal):
-        return True
+        print("Active agent")
 
