@@ -70,12 +70,12 @@ class LedBoard:
             GPIO.show_leds_states()
 
     def power_up(self):
-        self.flash_all_leds(1)
-        self.twinkle_all_leds(1)
+        self.flash_all_leds(0.5)
+        self.twinkle_all_leds(0.5)
 
     def power_down(self):
-        self.twinkle_all_leds(1)
-        self.flash_all_leds(1)
+        self.twinkle_all_leds(0.5)
+        self.flash_all_leds(0.5)
 
     def successfull(self):
         """ Successfull login LED pattern """
