@@ -36,7 +36,7 @@ class FSM:
         self.add_rule(Rule("S-Led", "S-Time", all_digits, KPCAgent.setLDur))
         self.add_rule(Rule('S-Time', 'S-Active', '*', KPCAgent.light_one_led))
         self.add_rule(Rule('S-Active', 'S-Logout', '#'))
-        self.add_rule(Rule('S-Logout', 'S-Init', '#', KPCAgent.reset_agent))
+        self.add_rule(Rule('S-Logout', 'S-Init', '#', KPCAgent.power_down))
 
         self.add_rule(Rule('S-Active', 'S-Read2', '*', KPCAgent.reset_password_entry))
         self.add_rule(Rule('S-Read2', 'S-Read2', all_digits, KPCAgent.append_next_password_digit))

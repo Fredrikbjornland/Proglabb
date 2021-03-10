@@ -17,7 +17,7 @@ class KPCAgent:
         initiate a “power up” lighting
         sequence on the LED Board."""
         self.current_password_buffer = ""
-        ## Light up LED
+        self.led_board.power_up()
 
     def get_next_signal(self):
         """ Return the override signal, if it is non-blank; 
@@ -47,11 +47,11 @@ class KPCAgent:
                 if self.current_password_buffer == password:
                     self.override_signal = "Y"
                     print("Validated password")
-                    # self.led_board.twinkle_all_leds(1)
+                    self.led_board.successfull()
                 else:
                     self.override_signal = "N"
                     print("Not correct password")
-                    # self.led_board.unsuccessfull()
+                    self.led_board.unsuccessfull()
                     """ Initiate LED lights for failed login """
             except:
                 print("Error when reading password")
@@ -64,12 +64,12 @@ class KPCAgent:
         if not self.current_password_buffer.isdigit() or len(self.current_password_buffer) < 4:
             """ Initiate failed led lights """
             print("New password not valid")
-            # self.led_board.unsuccessfull()
+            self.led_board.unsuccessfull()
         else:
             with open(self.password_path, "w") as writer:
                 writer.write(self.current_password_buffer)
                 print("Passrod updated")
-                # self.led_board.successfull()
+                self.led_board.successfull()
                 """ Initiate successfull LED lights """
             writer.close()
     def setLid(self, lid):
@@ -88,6 +88,11 @@ class KPCAgent:
         print("Reset agent")
         self.reset_password_entry("sdf")
         self.override_signal = None
+
+    def power_down(self, signal):
+        self.reset_agent(signal)
+        print("Powering down")
+        self.led_board.power_down()
 
     def fully_active_agent(self, signal):
         print("Active agent")
