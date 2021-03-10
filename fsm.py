@@ -32,7 +32,7 @@ class FSM:
         self.add_rule(Rule("S-Led", "S-Time", all_digits, KPCAgent.setLDur))
         self.add_rule(Rule('S-Time', 'S-Active', '*', KPCAgent.light_one_led))
         self.add_rule(Rule('S-Active', 'S-Logout', '#', KPCAgent.do_nothing))
-        self.add_rule(Rule('S-Logout', 'S-Init', '#', KPCAgent.reset_agent))
+        self.add_rule(Rule('S-Logout', 'S-Init', '#', KPCAgent.power_down))
 
         self.add_rule(Rule('S-Active', 'S-Read2', '*', KPCAgent.reset_password_entry))
         self.add_rule(Rule('S-Read2', 'S-Read2', all_digits, KPCAgent.append_next_password_digit))
@@ -44,7 +44,6 @@ class FSM:
 
 
 
-
     def add_rule(self, rule):
         self.rules.append(rule)
 
@@ -53,8 +52,7 @@ class FSM:
 
     def run(self):
         """ Start looping though states """
-        i = 0
-        while self.state != 'S-done' and i < len(self.testInput):
+        while self.state != 'S-done':
             self.signal  = self.get_next_signal()
             for rule in self.rules:
                 """ Iterate through rules """
@@ -62,6 +60,5 @@ class FSM:
                    self.state = rule.fire(self.agent, self.signal)
                    print("State: ", self.state)
                    break
-            i += 1
 
         
