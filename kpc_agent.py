@@ -1,9 +1,9 @@
 """ The KPC Agent file """
-# from fsm import FSM
 
 class KPCAgent:
     """ KPCAgent class """
     def __init__(self, keypad, led_board):
+        """ Initiate class """
         self.keypad = keypad
         self.led_board = led_board
         self.password_path = "password.txt"
@@ -16,15 +16,13 @@ class KPCAgent:
         """- Clear the password-buffer and 
         initiate a “power up” lighting
         sequence on the LED Board."""
-        print("Reset password")
         self.current_password_buffer = ""
         ## Light up LED
-    def do_nothing(self, signal):
-        pass
+
     def get_next_signal(self):
         """ Return the override signal, if it is non-blank; 
         otherwise query the keypad for the next pressed key. """
-        print("get next signal")
+        print("Type in the next signal: ")
         if self.override_signal != None:
             holder = self.override_signal
             self.override_signal = None
